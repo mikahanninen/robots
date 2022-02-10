@@ -13,4 +13,4 @@ dependencies:
       # Define pip packages here.
       # https://pypi.org/
       #- rpaframework==12.6.1 # https://rpaframework.org/releasenotes.html
-      - https://github.com/mikahanninen/robots/blob/main/builds/rpaframework-12.6.1.ede3caf3-py3-none-any.whl?raw=true
+      - https://github.com/mikahanninen/robots/blob/main/builds/rpaframework-12.6.1.bb59a94a-py3-none-any.whl?raw=true
