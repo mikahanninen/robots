@@ -4,6 +4,7 @@ Library           RPA.Robocorp.Vault
 
 *** Variables ***
 ${BACKUP_FOLDER}    ${CURDIR}${/}backup
+${ATTACHMENT_FOLDER}    ${CURDIR}${/}attachments
 
 *** Keywords ***
 Gmail authorization
@@ -14,14 +15,19 @@ Gmail authorization
 *** Tasks ***
 Minimal task
     Gmail authorization
-    ${messages}=    List Messages    SUBJECT "Testing!"    source_folder=The TESTING folder
+    ${messages}=    List Messages    SUBJECT "Message from Robot"    source_folder=The TESTING folder
     FOR    ${index}    ${msg}    IN ENUMERATE    @{messages}
         Log To Console    ${msg}[uid] - ${msg}[Subject]
         Save Messages    ${msg}    ${BACKUP_FOLDER}
-        IF    $index % 2 == 0
-            Move Messages    ${msg}    target_folder=custom name
-        ELSE
-            Delete Message    ${msg}
-        END
+        Save Attachment
+        ...    ${msg}
+        ...    ${ATTACHMENT_FOLDER}
+        ...    overwrite=${TRUE}
+        ...    prefix=message_${msg}[uid]_
+        #IF    $index % 2 == 0
+        #    Move Messages    ${msg}    target_folder=custom name
+        #ELSE
+        #    Delete Message    ${msg}
+        #END
     END
     Log    Done.
