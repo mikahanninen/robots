@@ -15,6 +15,18 @@ Gmail authorization
 *** Tasks ***
 Minimal task
     Gmail authorization
+    ${messages}=    List Messages    gmail:from:1Password
+    FOR    ${index}    ${msg}    IN ENUMERATE    @{messages}
+        # one half: mark as read and unflag
+        # other half: mark as unread and flag
+        IF    $index % 2 == 0
+            Mark As Read    ${msg}
+            Unflag Messages    ${msg}
+        ELSE
+            Mark As Unread    ${msg}
+            Flag Messages    ${msg}
+        END
+    END
     ${messages}=    List Messages    SUBJECT "Message from Robot"    source_folder=The TESTING folder
     FOR    ${index}    ${msg}    IN ENUMERATE    @{messages}
         Log To Console    ${msg}[uid] - ${msg}[Subject]
