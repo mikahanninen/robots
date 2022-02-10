@@ -15,3 +15,8 @@ temp/
 testrun/*
 .~lock*
 *.pkl
+vault.json
+*.eml
+log.html
+output.xml
+report.html
