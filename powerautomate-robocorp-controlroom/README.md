@@ -1,4 +1,4 @@
-# Power Automate and trigger Process in Robocorp Control Room
+# Power Automate triggering a Process in Robocorp Control Room
 
 This example will use Microsoft Power Automate flow to monitor new items
 on Sharepoint list and on each new item will trigger a Robocorp Control Room
