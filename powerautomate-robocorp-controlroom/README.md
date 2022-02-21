@@ -15,7 +15,7 @@ would access that via MSGraph API.
 
 ## Steps
 
-Assumption. You have some Sharepoint list which benefits from this Robot.
+Assumption: You have some Sharepoint list which benefits from this Robot.
 
 1. Create a Robocorp Robot task which will execute on email trigger
 2. Configure a process in Robocorp Control Room
