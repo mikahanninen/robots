@@ -4,7 +4,7 @@ Library           RPA.Robocorp.Vault
 
 *** Tasks ***
 ImapSmtp Tasks
-    Authorize ImapSmtp
+    [Setup]  Authorize ImapSmtp
     ${emails}    List Messages    BEFORE "23-OCT-2021"    INBOX
     FOR    ${email}    IN    @{emails}
         Log Message    ${email}
