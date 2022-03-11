@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.1.3 (Python 3.7.5 on win32)" generated="20220311 14:25:56.085" rpa="true" schemaversion="2">
+<suite id="s1" name="Exchange" source="c:\koodi\testground\rpaframework-march-2022\exchange.robot">
+<test id="s1-t1" name="Exchange Tasks">
+<kw name="Authorize Exchange">
+<kw name="Evaluate" library="BuiltIn">
+<var>${localzone}</var>
+<arg>tzlocal.get_localzone()</arg>
+<arg>modules=tzlocal</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<msg timestamp="20220311 14:25:57.557" level="INFO">${localzone} = Europe/Kiev</msg>
+<status status="PASS" starttime="20220311 14:25:57.477" endtime="20220311 14:25:57.557"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>\nLocal timezone is: ${localzone}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220311 14:25:57.557" endtime="20220311 14:25:57.558"/>
+</kw>
+<kw name="Get Secret" library="RPA.Robocorp.Vault">
+<var>${secret}</var>
+<arg>Exchange</arg>
+<doc>Read a secret from the configured source, e.g. Robocorp Vault,
+and return it as a ``Secret`` object.</doc>
+<msg timestamp="20220311 14:25:57.559" level="INFO">Protecting keyword: RPA.Robocorp.Vault.Get Secret</msg>
+<msg timestamp="20220311 14:25:57.560" level="INFO">Log level changed from NONE to INFO.</msg>
+<status status="PASS" starttime="20220311 14:25:57.559" endtime="20220311 14:25:57.560"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${SHARED_MAILBOX}</arg>
+<arg>${secret}[shared_mailbox]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20220311 14:25:57.562" level="INFO">${SHARED_MAILBOX} = incoming.orders@beissi.onmicrosoft.com</msg>
+<status status="PASS" starttime="20220311 14:25:57.561" endtime="20220311 14:25:57.562"/>
+</kw>
+<kw name="Authorize" library="RPA.Email.Exchange">
+<arg>username=${secret}[account]</arg>
+<arg>password=${secret}[password]</arg>
+<arg>autodiscover=False</arg>
+<arg>server=outlook.office365.com</arg>
+<doc>Connect to Exchange account</doc>
+<status status="PASS" starttime="20220311 14:25:57.562" endtime="20220311 14:25:58.068"/>
+</kw>
+<status status="PASS" starttime="20220311 14:25:57.476" endtime="20220311 14:25:58.068"/>
+</kw>
+<kw name="List Exchange Messages">
+<kw name="List Messages" library="RPA.Email.Exchange">
+<var>${messages}</var>
+<arg>after:31-12-2021</arg>
+<doc>List messages in the account inbox. Order by descending
+received time.</doc>
+<msg timestamp="20220311 14:25:58.071" level="FAIL">AttributeError: 'str' object has no attribute 'all'</msg>
+<status status="FAIL" starttime="20220311 14:25:58.070" endtime="20220311 14:25:58.071"/>
+</kw>
+<for flavor="IN">
+<var>${m}</var>
+<value>@{messages}</value>
+<iter>
+<var name="${m}">${m}</var>
+<if>
+<branch type="IF" condition="$m[&quot;has_attachments&quot;]">
+<kw name="Log To Console" library="BuiltIn">
+<arg>Email '${m}[subject]' has attachments</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="NOT RUN" starttime="20220311 14:25:58.072" endtime="20220311 14:25:58.073"/>
+</kw>
+<status status="NOT RUN" starttime="20220311 14:25:58.072" endtime="20220311 14:25:58.073"/>
+</branch>
+<branch type="ELSE">
+<kw name="Log To Console" library="BuiltIn">
+<arg>Email '${m}[subject]' does NOT have attachments</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="NOT RUN" starttime="20220311 14:25:58.073" endtime="20220311 14:25:58.073"/>
+</kw>
+<status status="NOT RUN" starttime="20220311 14:25:58.073" endtime="20220311 14:25:58.073"/>
+</branch>
+<status status="NOT RUN" starttime="20220311 14:25:58.072" endtime="20220311 14:25:58.073"/>
+</if>
+<status status="NOT RUN" starttime="20220311 14:25:58.072" endtime="20220311 14:25:58.073"/>
+</iter>
+<status status="NOT RUN" starttime="20220311 14:25:58.072" endtime="20220311 14:25:58.074"/>
+</for>
+<status status="FAIL" starttime="20220311 14:25:58.069" endtime="20220311 14:25:58.074"/>
+</kw>
+<kw name="Using advanced criteria">
+<status status="NOT RUN" starttime="20220311 14:25:58.075" endtime="20220311 14:25:58.075"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>Done.</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="NOT RUN" starttime="20220311 14:25:58.076" endtime="20220311 14:25:58.076"/>
+</kw>
+<status status="FAIL" starttime="20220311 14:25:57.475" endtime="20220311 14:25:58.076">AttributeError: 'str' object has no attribute 'all'</status>
+</test>
+<status status="FAIL" starttime="20220311 14:25:56.087" endtime="20220311 14:25:58.078"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Exchange">Exchange</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
