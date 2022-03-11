@@ -4,7 +4,7 @@ Library           RPA.Robocorp.Vault
 
 *** Tasks ***
 ImapSmtp Tasks
-    Authorize ImapSmtp
+    [Setup]  Authorize ImapSmtp
     ${emails}    List Messages    BEFORE "23-OCT-2021"    INBOX
     FOR    ${email}    IN    @{emails}
         Log Message    ${email}
@@ -26,4 +26,4 @@ Send Email
     ...    subject=Pretty New Test Email
     ...    body=bcc should be hidden NEW content of the message is really important
     ...    cc=robocorp.tester@gmail.com
-    ...    bcc=mika.hanninen@gmail.com,robocorp.com
+    ...    bcc=mika.hanninen@gmail.com,mark@robocorp.com
