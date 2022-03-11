@@ -26,4 +26,4 @@ Send Email
     ...    subject=Pretty New Test Email
     ...    body=bcc should be hidden NEW content of the message is really important
     ...    cc=robocorp.tester@gmail.com
-    ...    bcc=mika.hanninen@gmail.com,robocorp.com
+    ...    bcc=mika.hanninen@gmail.com,mark@robocorp.com
