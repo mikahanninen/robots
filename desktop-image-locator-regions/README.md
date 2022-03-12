@@ -1,1 +1,1 @@
-# Example of connecting Edge browser into new window
+# Example of using desktop image locators with regions
