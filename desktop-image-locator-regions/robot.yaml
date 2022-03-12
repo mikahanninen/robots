@@ -1,6 +1,4 @@
 tasks:
-  Switch to new Window on edge:
-    robotTaskName: Switch to new Window on Edge browser
   Use Region as Locator:
     robotTaskName: Use Region as Locator
 

@@ -1,0 +1,12 @@
+tasks:
+  Switch to new Window on edge:
+    robotTaskName: Switch to new Window on Edge browser
+
+condaConfigFile: conda.yaml
+artifactsDir: output
+PATH:
+  - .
+PYTHONPATH:
+  - .
+ignoreFiles:
+  - .gitignore
