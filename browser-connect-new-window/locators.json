@@ -1,0 +1,8 @@
+{
+    "Button": {
+        "confidence": 50.0,
+        "path": ".images/button-path.png",
+        "source": null,
+        "type": "image"
+    }
+}
