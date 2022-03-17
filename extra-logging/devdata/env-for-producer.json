@@ -1,0 +1,5 @@
+{
+  "RPA_WORKITEMS_ADAPTER": "RPA.Robocorp.WorkItems.FileAdapter",
+  "RPA_INPUT_WORKITEM_PATH": "%{ROBOT_ROOT}/devdata/work-items-in/test-input-for-producer/work-items.json",
+  "RPA_OUTPUT_WORKITEM_PATH": "%{ROBOT_ROOT}/devdata/work-items-out/last-run/work-items.json"
+}

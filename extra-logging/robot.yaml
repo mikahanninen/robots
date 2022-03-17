@@ -1,0 +1,12 @@
+tasks:
+  Produce:
+    robotTaskName: Produce Items
+  Consume:
+    robotTaskName: Consume Items
+
+artifactsDir: output
+condaConfigFile: conda.yaml
+ignoreFiles: [.gitignore]
+
+PATH: [.]
+PYTHONPATH: [.]
