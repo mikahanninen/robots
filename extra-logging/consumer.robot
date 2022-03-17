@@ -4,12 +4,18 @@ Library           RPA.Browser.Selenium
 Library           RPA.Robocorp.WorkItems
 Library           RPA.Tables
 Library           CustomerLogging
+...               date_format=%m-%d-%Y %H:%M:%S
+...               log_filename=${CURDIR}${/}business.log
 
 *** Tasks ***
 Consume items
     [Documentation]    Login and then cycle through work items.
-    @{keywords}=    Create List    Release Input Work Item    Get Work Item Payload
+    # Set list of keywords which will be logged into CustomerLogging.log_filename
+    @{keywords}=    Create List    Release Input Work Item
+    # Set list of messages which will be logged into CustomerLogging.log_filename
+    @{messages}=    Create List    Did a thing item for
     Set Keywords For Customer Log    ${keywords}
+    Set Messages For Customer Log    ${messages}
     ${Login OK}=    Run Keyword And Return Status
     ...    Login
     IF    ${Login OK}
@@ -57,14 +63,14 @@ Handle item
     ...    Action for item    ${payload}
     IF    ${Item Handled}
         Release Input Work Item    DONE
-        Customer Log    Handled one item successfully
+        #Customer Log    Handled one item successfully
     ELSE
         # Giving a good error message here means that data related errors can
         # be fixed faster in Control Room.
         ${error_message}=    Set Variable
         ...    Failed to handle item for: ${payload}.
         Log    ${error_message}    level=ERROR
-        Customer Log    ${error_message}
+        #Customer Log    ${error_message}
         Release Input Work Item
         ...    state=FAILED
         ...    exception_type=BUSINESS
