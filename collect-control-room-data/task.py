@@ -31,6 +31,7 @@ class ControlRoomCollector:
         self.process = Process()
         self.output_dir = os.getenv("ROBOT_ARTIFACTS", "output")
         self.check_line_items = False
+        self.api_throttle_time = 0.5
 
     def set_bot(self, bot):
         self.bot = bot
@@ -103,7 +104,7 @@ class ControlRoomCollector:
                 if real_end == None or real_end < step_run_end:
                     real_end = step_run_end
                 duration += one_step_run["duration"]
-                sleep(0.5)
+                sleep(self.api_throttle_time)
 
             real_duration = real_end - real_start
 
@@ -199,11 +200,12 @@ class ControlRoomCollector:
                 output_string += f"Average line item real time duration     : {round(total_real_duration/total_line_items,1)}s\n"
 
             output_string += "\n"
+        flush_print(output_string)
         self.write_report("summary", output_string)
 
 
 def main():
-    collector = ControlRoomCollector()
+    collector = ControlRoomCollector(10)
     for bot in BOTS:
         collector.set_bot(bot)
         collector.collect_data()
