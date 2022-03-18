@@ -5,6 +5,8 @@ to collect the data from certain workspace and certain process.
 
 ## expected Secret variables in the `vault.yaml`
 
+Secret can be also in the `vault.json` file or directly read from Control Room with VSCode Robocorp Code extension.
+
 ```yaml
 control_room_process_<NAME_OF_THE_PROCESS>:
   workspace_id: <WORKSPACE_ID>
