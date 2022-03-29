@@ -13,13 +13,14 @@ ${LOCATOR_NEXT_BUTTON}          //a[text()="Next"]/parent::li
 
 *** Test Cases ***
 Minimal task
+    # Action: Scrape all table pages and return headers + rows
     ${headers}    ${all_rows}=    Get table data from a webpage
+    # Action: Create result object from the headers and rows
     ${table}=    Create Table    ${all_rows}    columns=${headers}
     ${pandas_table}=    Evaluate    pandas.DataFrame(data=${all_rows}, columns=${headers})    modules=pandas
     Log To Console    RPA.Tables table:${table}
     Log To Console    pandas table:${pandas_table}
     Log    Done.
-
 
 
 *** Keywords ***
@@ -47,9 +48,6 @@ Get table data from a webpage
     END
     Log To Console    headers:${headers}
     Log To Console    rows:${all_rows}
-    # Action: Create result object from the headers and rows
-    #${table}=    Create Table    ${all_rows}    columns=${headers}
-    #RETURN    ${table}
     RETURN    ${headers}    ${all_rows}
 
 Collect Table Rows
