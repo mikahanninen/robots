@@ -13,9 +13,13 @@ ${LOCATOR_NEXT_BUTTON}          //a[text()="Next"]/parent::li
 
 *** Test Cases ***
 Minimal task
-    ${table}=    Get table data from a webpage
-    Log To Console    table:${table}
+    ${headers}    ${all_rows}=    Get table data from a webpage
+    ${table}=    Create Table    ${all_rows}    columns=${headers}
+    ${pandas_table}=    Evaluate    pandas.DataFrame(data=${all_rows}, columns=${headers})    modules=pandas
+    Log To Console    RPA.Tables table:${table}
+    Log To Console    pandas table:${pandas_table}
     Log    Done.
+
 
 
 *** Keywords ***
@@ -44,8 +48,9 @@ Get table data from a webpage
     Log To Console    headers:${headers}
     Log To Console    rows:${all_rows}
     # Action: Create result object from the headers and rows
-    ${table}=    Create Table    ${all_rows}    columns=${headers}
-    RETURN    ${table}
+    #${table}=    Create Table    ${all_rows}    columns=${headers}
+    #RETURN    ${table}
+    RETURN    ${headers}    ${all_rows}
 
 Collect Table Rows
     ${table_rows}=    Get WebElements    ${LOCATOR_TABLE_ROWS}
