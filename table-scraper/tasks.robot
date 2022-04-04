@@ -23,7 +23,6 @@ Minimal task
     Log    Done.
 
 
-
 *** Keywords ***
 Get table data from a webpage
     Open Available Browser    ${WEBSITE}    headless=True
@@ -70,7 +69,7 @@ Get Details From Cell
     [Arguments]    ${cell}
     ${cell_text}=    Evaluate    $cell.text.strip()
     ${links}=    Evaluate    $cell.find_elements_by_tag_name("a")
-    ${hrefs}=    Evaluate    [link.href for link in $links]
+    ${hrefs}=    Evaluate    [link.get_attribute('href') for link in $links]
     ${details}=    Create Dictionary
     ...    text=${cell_text}
     ...    links=${hrefs}
