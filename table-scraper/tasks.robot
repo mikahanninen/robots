@@ -23,6 +23,7 @@ Minimal task
     Log    Done.
 
 
+
 *** Keywords ***
 Get table data from a webpage
     Open Available Browser    ${WEBSITE}    headless=True
@@ -55,7 +56,22 @@ Collect Table Rows
     ${rows}=    Create List
     FOR    ${row}    IN    @{table_rows}
         ${cells}=    Evaluate    $row.find_elements_by_tag_name("td")
-        ${cell_contents}=    Evaluate    [c.text.strip() for c in $cells]
+        #${cell_contents}=    Evaluate    [c.text.strip() for c in $cells]
+        ${cell_contents}=    Create List
+        FOR    ${cell}    IN    @{cells}
+            ${details}=    Get Details From Cell    ${cell}
+            Append To List    ${cell_contents}    ${details}
+        END
         Append To List    ${rows}    ${cell_contents}
     END
     RETURN    ${rows}
+
+Get Details From Cell
+    [Arguments]    ${cell}
+    ${cell_text}=    Evaluate    $cell.text.strip()
+    ${links}=    Evaluate    $cell.find_elements_by_tag_name("a")
+    ${hrefs}=    Evaluate    [link.href for link in $links]
+    ${details}=    Create Dictionary
+    ...    text=${cell_text}
+    ...    links=${hrefs}
+    RETURN    ${details}
