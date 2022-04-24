@@ -62,7 +62,7 @@ between placeholder texts.
 
 ![Flow steps](images/power_automate_flow.png)
 
-Link. [https://flow.microsoft.com](https:/flow.microsoft.com)
+Link. [https://flow.microsoft.com](https://flow.microsoft.com)
 
 ## Result
 
