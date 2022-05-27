@@ -23,6 +23,14 @@ class ExtendedExcelLibrary(Files):
 
         :param range: string defining range for target cells
         :param value: value which will be set for each cell
+
+        Example.
+
+        .. code-block:: robotframework
+
+            Set Cells  A2:D4  New Value
+            # Set value for single cell
+            Set Cells  E7  Another One
         """
         range = f"{range}:{range}" if ":" not in range else range
         for row in self.workbook._book.active[range]:
@@ -41,6 +49,15 @@ class ExtendedExcelLibrary(Files):
         :param range: string defining range for target cells
         :param clearing_method: if SPACE then `space` character is entered
          as a cell value. By default, NONE, `None` value is set as a cell value
+
+        Example.
+
+        .. code-block:: robotframework
+
+            Clear Cells  A2:D4  New Value
+            # Clear value for single cell and clear with SPACE character
+
+            Clear Cells  E7  SPACE
         """
         self.set_cells(range, clearing_method.value)
 
@@ -55,6 +72,15 @@ class ExtendedExcelLibrary(Files):
         :param columns: maximum columns to print
         :param rows: maximum rows to print
         :return: sheet as read by `Read Worksheet` keyword
+
+        Example.
+
+        .. code-block:: robotframework
+
+            ${sheet}=  Print Sheet To Console
+            ...  header=True
+            ...  columns=3
+            ...  rows=10
         """
         sheet = self.read_worksheet(header=header)
         rpa_table = Tables().create_table(sheet)
