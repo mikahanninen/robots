@@ -16,7 +16,7 @@ value can be set to EMPTY (space character).
 
 Uses keyword `Read Worksheet` to read Excel worksheet into memory and then prints its contents into the console and at the end returns the sheet.
 
-<img src="images/example_console_output.png" style="margin-bottom:20px">
+<img src="images/example_console_output.png" style="margin-bottom:20px; width: 300px;">
 
 ## Learning materials
 
