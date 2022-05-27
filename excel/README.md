@@ -1,6 +1,6 @@
 # Extended RPA.Excel.Files Robot
 
-This Robot demonstrates extending rpaframework [RPA.Excel.Files](https://robocorp.com/docs/libraries/rpa-framework/rpa-excel-files) library.
+This Robot demonstrates extending [rpaframework](https://github.com/robocorp/rpaframework) [RPA.Excel.Files](https://robocorp.com/docs/libraries/rpa-framework/rpa-excel-files) library.
 
 There experimental keywords like `Set Cells`, `Clear Cells` and `Print Sheet To Console` have been added to the list of default available [keywords](https://robocorp.com/docs/libraries/rpa-framework/rpa-excel-files/keywords).
 
