@@ -33,9 +33,57 @@ class ExtendedExcelLibrary(Files):
             Set Cells  E7  Another One
         """
         range = f"{range}:{range}" if ":" not in range else range
+        self.logger.info(f"Set cells {range} with value {value}")
         for row in self.workbook._book.active[range]:
             for cell in row:
-                cell.value = value
+                cell.value = f'{value}'
+
+    def set_cells_formula(self, range: str, formula: str = None):
+        """Set cell values for range of cells.
+
+        Range is a set using Excel's A1 notation.
+
+        :param range: string defining range for target cells
+        :param formula: formula which will be set for each cell
+
+        Example.
+
+        .. code-block:: robotframework
+
+            Set Cells  A2:D4  New Value
+            # Set value for single cell
+            Set Cells  E7  Another One
+        """
+        range = f"{range}:{range}" if ":" not in range else range
+        for row in self.workbook._book.active[range]:
+            for cell in row:
+                self.logger.warning(type(cell))
+                self.logger.warning(dir(cell))
+                cell.value = str(formula)
+                self.logger.warning(cell.internal_value)
+                self.logger.warning(cell.value)
+                self.logger.warning(cell.data_type)
+
+    def set_cells_format(self, range: str, format: str = None):
+        """Set cell values for range of cells.
+
+        Range is a set using Excel's A1 notation.
+
+        :param range: string defining range for target cells
+        :param formula: formula which will be set for each cell
+
+        Example.
+
+        .. code-block:: robotframework
+
+            Set Cells  A2:D4  New Value
+            # Set value for single cell
+            Set Cells  E7  Another One
+        """
+        range = f"{range}:{range}" if ":" not in range else range
+        for row in self.workbook._book.active[range]:
+            for cell in row:
+                cell.value = format
 
     def clear_cells(
         self, range: str, clearing_method: ClearingMethod = ClearingMethod.NONE
