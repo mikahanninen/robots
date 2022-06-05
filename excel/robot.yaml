@@ -1,6 +1,8 @@
 tasks:
-  Run all tasks:
-    shell: python -m robot --report NONE --outputdir output --logtitle "Task log" tasks.robot
+  NewExcel:
+    robotTaskName: Creating new excel
+  OneExcel:
+    robotTaskName: Working with one excel
 
 condaConfigFile: conda.yaml
 artifactsDir: output

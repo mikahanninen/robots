@@ -33,9 +33,65 @@ class ExtendedExcelLibrary(Files):
             Set Cells  E7  Another One
         """
         range = f"{range}:{range}" if ":" not in range else range
+        self.logger.info(f"Set cells {range} with value {value}")
         for row in self.workbook._book.active[range]:
             for cell in row:
-                cell.value = value
+                cell.value = f"{value}"
+
+    def set_cells_formula(self, first_cell: str, range: str, formula: str = None):
+        """Set cell values for range of cells.
+
+        Range is a set using Excel's A1 notation.
+
+        :param range: string defining range for target cells
+        :param formula: formula which will be set for each cell
+
+        Example.
+
+        .. code-block:: robotframework
+
+            Set Cells  A2:D4  New Value
+            # Set value for single cell
+            Set Cells  E7  Another One
+        """
+        range = f"{range}:{range}" if ":" not in range else range
+        from openpyxl.formula.translate import Translator
+
+        self.set_cells(first_cell, value=formula)
+
+        for row in self.workbook._book.active[range]:
+            for cell in row:
+                cell.value = Translator(formula, first_cell).translate_formula(
+                    cell.coordinate
+                )
+                # self.logger.warning(type(cell))
+                # self.logger.warning(dir(cell))
+                # cell.value = str(formula)
+                # self.logger.warning(cell.coordinate)
+                # self.logger.warning(cell.internal_value)
+                # self.logger.warning(cell.value)
+                # self.logger.warning(cell.data_type)
+
+    def set_cells_format(self, range: str, format: str = None):
+        """Set cell values for range of cells.
+
+        Range is a set using Excel's A1 notation.
+
+        :param range: string defining range for target cells
+        :param formula: formula which will be set for each cell
+
+        Example.
+
+        .. code-block:: robotframework
+
+            Set Cells  A2:D4  New Value
+            # Set value for single cell
+            Set Cells  E7  Another One
+        """
+        range = f"{range}:{range}" if ":" not in range else range
+        for row in self.workbook._book.active[range]:
+            for cell in row:
+                cell.value = format
 
     def clear_cells(
         self, range: str, clearing_method: ClearingMethod = ClearingMethod.NONE
@@ -94,3 +150,32 @@ class ExtendedExcelLibrary(Files):
             pt.add_row(values)
         BuiltIn().log_to_console(f"\n{pt}")
         return sheet
+
+    def align_cells(self, range: str):
+        from openpyxl.styles import Alignment
+
+        range = f"{range}:{range}" if ":" not in range else range
+        for row in self.workbook._book.active[range]:
+            for cell in row:
+                cell.alignment = Alignment(horizontal="center")
+
+    def conditional_format(self, range, rule):
+        from openpyxl.formatting.rule import CellIsRule
+        from openpyxl.styles import Font, PatternFill, Border
+
+        redFill = PatternFill(
+            start_color="EE1111", end_color="EE1111", fill_type="solid"
+        )
+        greenFill = PatternFill(
+            start_color="9AD5A0", end_color="9AD5A0", fill_type="solid"
+        )
+        range = f"{range}:{range}" if ":" not in range else range
+        self.workbook._book.active.conditional_formatting.add(
+            range,
+            CellIsRule(
+                operator="greaterThan",
+                formula=[1000],
+                stopIfTrue=True,
+                fill=greenFill,
+            ),
+        )
