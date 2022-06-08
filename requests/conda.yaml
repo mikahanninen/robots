@@ -14,6 +14,4 @@ dependencies:
       # Define pip packages here.
       # https://pypi.org/
       - rpaframework==15.0.0 # https://rpaframework.org/releasenotes.html
-      - prettytable==2.1.0
-      - pendulum==2.1.2
-      - arrow==1.2.2
+      - requests-pkcs12==1.14

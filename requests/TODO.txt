@@ -1,0 +1,3 @@
+@{client_certs}=    Create List     ${CURDIR}${/}client.pem     ${CURDIR}${/}key.pem
+Create Client Cert Session  LER  ${URL}     client_certs=@{client_certs}
+${resp}=    Get On Session     LER    /api/SecureTest   verify=${CURDIR}${/}ca.pem
