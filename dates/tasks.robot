@@ -3,7 +3,9 @@ Library     DateLibrary
 
 
 *** Variables ***
-@{MONTHS}=      04    05    06    07    08    09    10
+@{MONTHS}=          04    05    06    07    08    09    10
+${start_date}=      01/01/2000
+${end_date}=        01/01/2022
 
 
 *** Tasks ***
@@ -21,3 +23,11 @@ Minimal task
     END
 
     Log    Done.
+
+Getting months in between
+    ${diff}=    Time Difference In Months    ${start_date}    ${end_date}
+    Log To Console    ${diff}
+    WHILE    ${diff}[months] > 0
+        #${new_date}=    plus one month
+        ${diff}=    Time Difference In Months    ${start_date}    ${end_date}
+    END
