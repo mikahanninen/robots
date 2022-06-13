@@ -33,6 +33,7 @@ Getting months in between
     WHILE    ${diff}[months] > 0
         ${start_dt}=    Evaluate    $start_dt.add(months=1)
         ${diff}=    Time Difference In Months    ${start_dt}    ${end_date}
+        IF    ${diff}[months]==0    BREAK
         Append To List    ${months}    ${start_dt.format('MM/DD/YYYY')}
     END
     Log To Console    \nFirst of months between ${start_date} and ${end_date}:\n@{months}
