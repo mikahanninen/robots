@@ -1,9 +1,10 @@
 # Example of DateLibrary
 
-The library provides three keywords
+The library provides these keywords
 
 - `Time Now`
 - `Time Difference`
+- `Time Difference In Months`
 - `Create Datetime`
 
 ## Learning materials
