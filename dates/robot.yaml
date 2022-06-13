@@ -1,6 +1,8 @@
 tasks:
-  Run all tasks:
-    shell: python -m robot --report NONE --outputdir output --logtitle "Task log" tasks.robot
+  Basic Operations:
+    robotTaskName: Minimal task
+  Months:
+    robotTaskName: Getting months in between
 
 condaConfigFile: conda.yaml
 artifactsDir: output
