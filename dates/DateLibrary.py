@@ -37,6 +37,8 @@ def time_difference(start_date: Union[str, DateTime], end_date: Union[str, DateT
     modifier_for_seconds = 1 if diff.seconds >= 0 else -1
     return {
         "end_date_is_greater": end_d > start_d,
+        "years": diff.years,
+        "months": diff.months,
         "days": diff.days,
         "hours": diff.hours,
         "minutes": diff.minutes,
@@ -80,3 +82,11 @@ def _parse_datetime_string_to_pendulum_datetime(date_string):
         return result
     except ParserError as err:
         raise ValueError(parsing_error_message % date_string)
+
+
+def time_difference_in_months(
+    start_date: Union[str, DateTime], end_date: Union[str, DateTime]
+):
+    diff = time_difference(start_date, end_date)
+    diff["months"] += diff["years"] * 12
+    return diff

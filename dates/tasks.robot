@@ -1,9 +1,12 @@
 *** Settings ***
 Library     DateLibrary
+Library     Collections
 
 
 *** Variables ***
-@{MONTHS}=      04    05    06    07    08    09    10
+@{MONTHS}=          04    05    06    07    08    09    10
+${start_date}=      01/15/2000
+${end_date}=        01/01/2022
 
 
 *** Tasks ***
@@ -21,3 +24,15 @@ Minimal task
     END
 
     Log    Done.
+
+Getting months in between
+    ${start_dt}=    Create Datetime    ${start_date}    MM/DD/YYYY
+    ${start_dt}=    Evaluate    $start_dt.start_of('month')
+    ${diff}=    Time Difference In Months    ${start_dt.month}/1/${start_dt.year}    ${end_date}
+    @{months}=    Create List
+    WHILE    ${diff}[months] > 0
+        ${start_dt}=    Evaluate    $start_dt.add(months=1)
+        ${diff}=    Time Difference In Months    ${start_dt}    ${end_date}
+        Append To List    ${months}    ${start_dt.format('MM/DD/YYYY')}
+    END
+    Log To Console    \nFirst of months between ${start_date} and ${end_date}:\n@{months}
