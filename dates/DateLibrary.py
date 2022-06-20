@@ -48,7 +48,7 @@ def time_difference(start_date: Union[str, DateTime], end_date: Union[str, DateT
     }
 
 
-def create_datetime(date_string: str, date_format: str, timezone: str = "UTC"):
+def create_datetime(date_string: str, date_format: str = None, timezone: str = None):
     """This keyword tries to construct valid datetime
     object from given date string and its expected date
     format.
@@ -64,7 +64,12 @@ def create_datetime(date_string: str, date_format: str, timezone: str = "UTC"):
     :return: datetime object which can be used
      with `Time Difference` keyword
     """
-    return pdl.from_format(date_string, date_format, tz=timezone)
+    if date_format:
+        return pdl.from_format(date_string, date_format, tz=timezone)
+    else:
+        return _parse_datetime_string_to_pendulum_datetime(
+            date_string, timezone=timezone
+        )
 
 
 def time_now(timezone: str = None):
@@ -76,9 +81,9 @@ def time_now(timezone: str = None):
     return pdl.now(tz=timezone)
 
 
-def _parse_datetime_string_to_pendulum_datetime(date_string):
+def _parse_datetime_string_to_pendulum_datetime(date_string, timezone: str = None):
     try:
-        result = pdl.parse(date_string, strict=False)
+        result = pdl.parse(date_string, tz=timezone, strict=False)
         return result
     except ParserError as err:
         raise ValueError(parsing_error_message % date_string)

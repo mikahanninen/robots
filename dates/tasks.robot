@@ -1,6 +1,7 @@
 *** Settings ***
 Library     DateLibrary
 Library     Collections
+Library     RPA.Excel.Files
 
 
 *** Variables ***
@@ -37,3 +38,19 @@ Getting months in between
         Append To List    ${months}    ${start_dt.format('MM/DD/YYYY')}
     END
     Log To Console    \nFirst of months between ${start_date} and ${end_date}:\n@{months}
+
+Parsing Entries from Excel
+    Open Workbook    ${CURDIR}${/}dates.xlsx
+    ${rows}=    Read Worksheet    header=True
+    Create Worksheet    BeyondBusinessHours    exist_ok=True
+    FOR    ${row}    IN    @{rows}
+        Log To Console    ${row}
+        ${entry_date}=    Create Datetime    ${row}[timestamp]
+        ${diff}=    Time Difference    06/17/22 05:00 PM    ${entry_date}
+        Log To Console    ${entry_date}
+        Log To Console    ${diff}
+        IF    ${diff}[end_date_is_greater]
+            Append Rows To Worksheet    ${row}    name=BeyondBusinessHours    header=True
+        END
+    END
+    Save Workbook
