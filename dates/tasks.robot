@@ -13,14 +13,17 @@ ${end_date}=        01/01/2022
 *** Tasks ***
 Minimal task
     ${now}=    Time Now    Europe/London
-    ${diff}=    Time Difference    ${now}    22-06-09 04:56:30 PM
+    ${diff}=    Time Difference    ${now}    22-06-09 04:56:30 PM    Europe/London
     Log To Console    ${diff}
     ${mytime}=    Create Datetime    18-05-2022 16:59    DD-MM-YYYY HH:mm    Europe/London
     ${diff}=    Time Difference    ${mytime}    ${now}
     FOR    ${month}    IN    @{MONTHS}
-        ${dt}=    Create Datetime    05-${month}-22 12:00    DD-MM-YY HH:mm
+        ${dt}=    Create Datetime    05-${month}-22 12:00    DD-MM-YY HH:mm    Europe/London
         ${diff}=    Time Difference    ${dt}    ${now}
-        IF    not ${diff}[end_date_is_greater]    BREAK
+        IF    not ${diff}[end_date_is_greater]
+            Log To Console    05-${month}-22 12:00 IS past current datetime (Europe/London)
+            BREAK
+        END
         Log To Console    05-${month}-22 12:00 is not past current datetime (Europe/London)
     END
 
@@ -42,13 +45,10 @@ Getting months in between
 Parsing Entries from Excel
     Open Workbook    ${CURDIR}${/}dates.xlsx
     ${rows}=    Read Worksheet    header=True
-    Create Worksheet    BeyondBusinessHours    exist_ok=True
+    Run Keyword And Ignore Error    Create Worksheet    BeyondBusinessHours
     FOR    ${row}    IN    @{rows}
-        Log To Console    ${row}
         ${entry_date}=    Create Datetime    ${row}[timestamp]
         ${diff}=    Time Difference    06/17/22 05:00 PM    ${entry_date}
-        Log To Console    ${entry_date}
-        Log To Console    ${diff}
         IF    ${diff}[end_date_is_greater]
             Append Rows To Worksheet    ${row}    name=BeyondBusinessHours    header=True
         END

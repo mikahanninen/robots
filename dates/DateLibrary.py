@@ -1,3 +1,4 @@
+from time import time
 import pendulum as pdl
 from pendulum.parsing.exceptions import ParserError
 from pendulum.datetime import DateTime
@@ -12,7 +13,11 @@ valid tokens for the date format.
 """
 
 
-def time_difference(start_date: Union[str, DateTime], end_date: Union[str, DateTime]):
+def time_difference(
+    start_date: Union[str, DateTime],
+    end_date: Union[str, DateTime],
+    timezone: str = None,
+):
     """Compare 2 dates and get the time difference.
 
     Returned dictionary contains following properties:
@@ -25,11 +30,13 @@ def time_difference(start_date: Union[str, DateTime], end_date: Union[str, DateT
         - seconds, time difference in seconds (in addition to the minutes)
     """
     if isinstance(start_date, str):
-        start_d = _parse_datetime_string_to_pendulum_datetime(start_date)
+        start_d = _parse_datetime_string_to_pendulum_datetime(
+            start_date, timezone=timezone
+        )
     else:
         start_d = start_date
     if isinstance(end_date, str):
-        end_d = _parse_datetime_string_to_pendulum_datetime(end_date)
+        end_d = _parse_datetime_string_to_pendulum_datetime(end_date, timezone=timezone)
     else:
         end_d = end_date
 
