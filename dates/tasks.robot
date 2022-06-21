@@ -54,3 +54,13 @@ Parsing Entries from Excel
         END
     END
     Save Workbook
+
+Getting previous business day
+    # If public holidays are to be considered then country code needs
+    # to be given for example.    FI is for Finland, IN for India
+    ${business_day}=    Return Previous Business Day    06/27/22    FI
+    # the Friday 24th of June is a public holiday in Finland
+    # expected result is Thursday 23rd of June
+    Should Be Equal In Days    ${business_day}    06/23/22
+    ${formatted_business_day}=    Evaluate    $business_day.format("MM/DD/YY")
+    Log to Console    ${formatted_business_day} 05:00:00 PM
