@@ -1,6 +1,10 @@
 tasks:
-  Run Python:
-    shell: python task.py
+  Python Collect Information:
+    shell: python task_collector.py
+  Python Artifacts:
+    shell: python task_artifacts.py
+  Run Robot Framework:
+    shell: python -m robot -d output -L TRACE --report NONE --task "Downloading Artifact Files From Control Room" task.robot
 
 condaConfigFile: conda.yaml
 artifactsDir: output
