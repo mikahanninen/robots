@@ -1,0 +1,14 @@
+tasks:
+  Run Python:
+    shell: python task.py
+  Run RobotFramework:
+    robotTaskName: Call Oracle's Stored Procedure
+
+condaConfigFile: conda.yaml
+artifactsDir: output
+PATH:
+  - .
+PYTHONPATH:
+  - .
+ignoreFiles:
+  - .gitignore
