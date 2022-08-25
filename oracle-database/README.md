@@ -27,12 +27,11 @@ will be `Welcome Robot`.
 ## Calling above procedure in Robot Framework syntax
 
 ```robotframework
-    @{params}=    Create List    Robot
-    ${result}=    Oracle Call Procedure    PROCEDURE1    ${params}
-    IF  "${result}" == "Welcome Robot"
-        Log To Console   We are welcome
-    ELSE
-        Log To Console   They do not welcome robots
-    END
-```
+  @{params}=    Create List    Robot
+  ${result}=    Oracle Call Procedure    PROCEDURE1    ${params}
+  IF  "${result}" == "Welcome Robot"
+      Log To Console   We are welcome
+  ELSE
+      Log To Console   They do not welcome robots
+  END
 ```
