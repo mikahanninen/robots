@@ -8,6 +8,7 @@ Library     RPA.JSON
 Performance measurement in Incognito mode
     ${options}=    Evaluate    selenium.webdriver.ChromeOptions()    modules=selenium.webdriver
     Evaluate    $options.add_argument("incognito")
+    Evaluate    $options.set_capability("goog:loggingPrefs", {'performance': 'ALL'})
     Open Browser    about:blank    browser=chrome    options=${options}
     Execute Javascript    performance.mark("Begin")
     Go To    https://robocorp.com/

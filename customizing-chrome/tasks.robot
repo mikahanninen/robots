@@ -4,8 +4,12 @@ Library     RPA.Browser.Selenium
 
 *** Tasks ***
 Options and Capabilities
-    # https://chromedriver.chromium.org/capabilities
-    # https://peter.sh/experiments/chromium-command-line-switches/
+    # Supporting links for different Chrome tweaking possibilities
+    ## https://chromedriver.chromium.org/capabilities
+    ## https://peter.sh/experiments/chromium-command-line-switches/
+    ## https://developer.mozilla.org/en-US/docs/Web/API
+    ## NOTE. Selenium 4 provides better was of accessing Chrome's devtools
+    ## https://www.selenium.dev/ja/documentation/webdriver/bidirectional/chrome_devtools/
     ${options}=    Evaluate    selenium.webdriver.ChromeOptions()    modules=selenium.webdriver
     ${original_caps}=    Evaluate
     ...    selenium.webdriver.DesiredCapabilities.CHROME.copy()
