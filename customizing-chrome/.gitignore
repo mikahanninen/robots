@@ -15,5 +15,5 @@ temp/
 testrun/*
 .~lock*
 *.pkl
-chromedriver
+chromedriver.exe
 metrics.json
