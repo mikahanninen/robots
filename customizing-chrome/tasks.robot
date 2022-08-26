@@ -3,7 +3,7 @@ Library     RPA.Browser.Selenium
 
 
 *** Tasks ***
-Minimal task
+Options and Capabilities
     # https://chromedriver.chromium.org/capabilities
     # https://peter.sh/experiments/chromium-command-line-switches/
     ${options}=    Evaluate    selenium.webdriver.ChromeOptions()    modules=selenium.webdriver

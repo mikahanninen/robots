@@ -1,7 +1,9 @@
 tasks:
-  Run all tasks:
-    shell: python -m robot --report NONE --outputdir output --logtitle "Task log" tasks.robot
-
+  Options and Capabilities:
+    robotTaskName: Options and Capabilities
+  Performance:
+    robotTaskName: Performance measurement in Incognito mode
+     
 condaConfigFile: conda.yaml
 artifactsDir: output
 PATH:
