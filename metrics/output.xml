@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.9.13 on win32)" generated="20220829 20:33:45.027" rpa="true" schemaversion="3">
+<suite id="s1" name="Task" source="c:\koodi\repos\personal\mikahanninen-robots\collect-control-room-data\task.robot">
+<test id="s1-t1" name="Downloading Artifact Files From Control Room" line="10">
+<kw name="Register Protected Keywords" library="RPA.RobotLogListener">
+<arg>Set Credentials</arg>
+<doc>Register keywords that are not going to be logged into Robot Framework logs.</doc>
+<status status="PASS" starttime="20220829 20:33:45.656" endtime="20220829 20:33:45.657"/>
+</kw>
+<kw name="Get Secret" library="RPA.Robocorp.Vault">
+<var>${secrets}</var>
+<arg>control_room_process</arg>
+<doc>Read a secret from the configured source, e.g. Robocorp Vault,
+and return it as a ``Secret`` object.</doc>
+<msg timestamp="20220829 20:33:45.657" level="INFO">Protecting keyword: RPA.Robocorp.Vault.Get Secret</msg>
+<msg timestamp="20220829 20:33:46.888" level="INFO">Log level changed from NONE to INFO.</msg>
+<status status="PASS" starttime="20220829 20:33:45.657" endtime="20220829 20:33:46.888"/>
+</kw>
+<kw name="Set Credentials" library="ExtendedProcess">
+<arg>${secrets}[workspace_id]</arg>
+<arg>${secrets}[process_id]</arg>
+<arg>${secrets}[api_key]</arg>
+<tag>set</tag>
+<doc>Set credentials needed by the Process API</doc>
+<msg timestamp="20220829 20:33:46.889" level="INFO">Protecting keyword: ExtendedProcess.Set Credentials</msg>
+<msg timestamp="20220829 20:33:46.889" level="INFO">Log level changed from NONE to INFO.</msg>
+<status status="PASS" starttime="20220829 20:33:46.889" endtime="20220829 20:33:46.889"/>
+</kw>
+<kw name="List Process Work Items" library="ExtendedProcess">
+<var>${items}</var>
+<tag>get</tag>
+<tag>process</tag>
+<tag>work item</tag>
+<doc>List work items belonging to a process</doc>
+<msg timestamp="20220829 20:33:47.625" level="INFO">${items} = [{'id': '7a086902-6c78-4260-958b-4a73612d16d3', 'state': 'FAILED', 'exception': {'type': 'ORCHESTRATOR', 'message': 'Step run failed', 'code': 'ERR_WORKER'}, 'stateTs': '2022-08-18T10:31:31.022Z', 'cr...</msg>
+<status status="PASS" starttime="20220829 20:33:46.890" endtime="20220829 20:33:47.625"/>
+</kw>
+<for flavor="IN">
+<var>${item}</var>
+<value>@{items}</value>
+<iter>
+<var name="${item}">{'id': '7a086902-6c78-4260-958b-4a73612d16d3', 'state': 'FAILED', 'exception': {'type': 'ORCHESTRATOR', 'message': 'Step run failed', 'code': 'ERR_WORKER'}, 'stateTs': '2022-08-18T10:31:31.022Z', 'cre...</var>
+<kw name="Get Process Run Status" library="ExtendedProcess">
+<var>${run}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a process run status by run id</doc>
+<msg timestamp="20220829 20:33:48.193" level="INFO">${run} = {'id': 'ff84197a-2df1-47f3-8d74-a956077246cc', 'startTs': '2022-08-18T10:30:56.718Z', 'endTs': '2022-08-18T10:31:30.742Z', 'state': 'COMPL', 'stateTs': '2022-08-18T10:31:30.742Z', 'result': 'ERR', 'st...</msg>
+<status status="PASS" starttime="20220829 20:33:47.625" endtime="20220829 20:33:48.193"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>---------------------------------------</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:48.194" endtime="20220829 20:33:48.195"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Process Run ID: ${item}[processRunNo]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:48.196" endtime="20220829 20:33:48.197"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Result: ${run}[result]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:48.198" endtime="20220829 20:33:48.200"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Step ID: ${run}[stepId]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:48.200" endtime="20220829 20:33:48.202"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Duration: ${run}[duration] sec</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:48.202" endtime="20220829 20:33:48.203"/>
+</kw>
+<kw name="List Run Artifacts" library="ExtendedProcess">
+<var>${artifacts}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>List Robot run artifacts</doc>
+<msg timestamp="20220829 20:33:48.206" level="INFO">GET https://api.eu1.robocorp.com/process-v1/workspaces/37a1e070-0a82-42c1-b001-248e625a0cf1/processes/4a4ae441-95b6-48ac-9725-12ffbedb5a62/runs/5fcc090d-2408-4f95-b47b-7369fbf835ce/robotRuns/ff84197a-2df1-47f3-8d74-a956077246cc/artifacts</msg>
+<msg timestamp="20220829 20:33:49.199" level="INFO">${artifacts} = [{'id': 'c5d6cb3e-8d91-46af-baf1-18bf9bb3c329', 'fileName': 'console.txt', 'fileSize': 41976}, {'id': '7aa7e8b1-9306-4e2f-b1a4-37765c5a03c6', 'fileName': 'environment_linux_amd64_freeze.yaml', 'fileSi...</msg>
+<status status="PASS" starttime="20220829 20:33:48.204" endtime="20220829 20:33:49.199"/>
+</kw>
+<for flavor="IN">
+<var>${artifact}</var>
+<value>@{artifacts}</value>
+<iter>
+<var name="${artifact}">{'id': 'c5d6cb3e-8d91-46af-baf1-18bf9bb3c329', 'fileName': 'console.txt', 'fileSize': 41976}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.200" endtime="20220829 20:33:49.200"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.201" endtime="20220829 20:33:49.201"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.201" endtime="20220829 20:33:49.201"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:49.200" endtime="20220829 20:33:49.201"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:49.200" endtime="20220829 20:33:49.201"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:49.200" endtime="20220829 20:33:49.201"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': '7aa7e8b1-9306-4e2f-b1a4-37765c5a03c6', 'fileName': 'environment_linux_amd64_freeze.yaml', 'fileSize': 4536}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.202" endtime="20220829 20:33:49.202"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.202" endtime="20220829 20:33:49.202"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.203" endtime="20220829 20:33:49.203"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:49.202" endtime="20220829 20:33:49.203"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:49.202" endtime="20220829 20:33:49.203"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:49.201" endtime="20220829 20:33:49.203"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': '476c2507-7a82-4192-a18e-dadc5d8ab899', 'fileName': 'log.html', 'fileSize': 228720}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.203" endtime="20220829 20:33:49.204"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.204" endtime="20220829 20:33:49.204"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.204" endtime="20220829 20:33:49.205"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:49.204" endtime="20220829 20:33:49.205"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:49.204" endtime="20220829 20:33:49.205"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:49.203" endtime="20220829 20:33:49.205"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': 'a28970a9-ec0a-4f11-8d40-3d9965cc6a3c', 'fileName': 'output.xml', 'fileSize': 4634}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.205" endtime="20220829 20:33:49.205"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.206" endtime="20220829 20:33:49.206"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.206" endtime="20220829 20:33:49.206"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:49.206" endtime="20220829 20:33:49.206"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:49.205" endtime="20220829 20:33:49.207"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:49.205" endtime="20220829 20:33:49.207"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': '84a8cc3a-f2db-472c-ab43-712d2aaae15b', 'fileName': 'playwright-log.txt', 'fileSize': 109}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.207" endtime="20220829 20:33:49.207"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.208" endtime="20220829 20:33:49.208"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:49.208" endtime="20220829 20:33:49.208"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:49.207" endtime="20220829 20:33:49.208"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:49.207" endtime="20220829 20:33:49.208"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:49.207" endtime="20220829 20:33:49.208"/>
+</iter>
+<status status="PASS" starttime="20220829 20:33:49.199" endtime="20220829 20:33:49.208"/>
+</for>
+<status status="PASS" starttime="20220829 20:33:47.625" endtime="20220829 20:33:49.208"/>
+</iter>
+<iter>
+<var name="${item}">{'id': '0d5be06c-c125-4db9-a98f-2e74a61654b6', 'state': 'COMPLETED', 'stateTs': '2022-08-18T10:30:45.522Z', 'createTs': '2022-08-18T10:30:28.996Z', 'queueTs': '2022-08-18T10:30:29.517Z', 'workspaceId'...</var>
+<kw name="Get Process Run Status" library="ExtendedProcess">
+<var>${run}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a process run status by run id</doc>
+<msg timestamp="20220829 20:33:49.789" level="INFO">${run} = {'id': 'a650cde7-5349-4f8d-89a0-35e3846b047d', 'startTs': '2022-08-18T10:30:37.682Z', 'endTs': '2022-08-18T10:30:48.481Z', 'state': 'COMPL', 'stateTs': '2022-08-18T10:30:48.481Z', 'result': 'OK', 'ste...</msg>
+<status status="PASS" starttime="20220829 20:33:49.209" endtime="20220829 20:33:49.789"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>---------------------------------------</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.790" endtime="20220829 20:33:49.790"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Process Run ID: ${item}[processRunNo]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.790" endtime="20220829 20:33:49.791"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Result: ${run}[result]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.791" endtime="20220829 20:33:49.792"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Step ID: ${run}[stepId]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.792" endtime="20220829 20:33:49.792"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Duration: ${run}[duration] sec</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:49.792" endtime="20220829 20:33:49.793"/>
+</kw>
+<kw name="List Run Artifacts" library="ExtendedProcess">
+<var>${artifacts}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>List Robot run artifacts</doc>
+<msg timestamp="20220829 20:33:49.794" level="INFO">GET https://api.eu1.robocorp.com/process-v1/workspaces/37a1e070-0a82-42c1-b001-248e625a0cf1/processes/4a4ae441-95b6-48ac-9725-12ffbedb5a62/runs/5fcc090d-2408-4f95-b47b-7369fbf835ce/robotRuns/a650cde7-5349-4f8d-89a0-35e3846b047d/artifacts</msg>
+<msg timestamp="20220829 20:33:50.549" level="INFO">${artifacts} = [{'id': '79fcecc3-7eda-402b-811c-2ad23a9dd5ce', 'fileName': 'console.txt', 'fileSize': 34509}, {'id': '901f6b48-d892-473f-b661-cc1737cfb46b', 'fileName': 'environment_linux_amd64_freeze.yaml', 'fileSi...</msg>
+<status status="PASS" starttime="20220829 20:33:49.793" endtime="20220829 20:33:50.550"/>
+</kw>
+<for flavor="IN">
+<var>${artifact}</var>
+<value>@{artifacts}</value>
+<iter>
+<var name="${artifact}">{'id': '79fcecc3-7eda-402b-811c-2ad23a9dd5ce', 'fileName': 'console.txt', 'fileSize': 34509}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:50.552" endtime="20220829 20:33:50.554"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:50.556" endtime="20220829 20:33:50.557"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:50.557" endtime="20220829 20:33:50.558"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:50.555" endtime="20220829 20:33:50.558"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:50.554" endtime="20220829 20:33:50.559"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:50.552" endtime="20220829 20:33:50.559"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': '901f6b48-d892-473f-b661-cc1737cfb46b', 'fileName': 'environment_linux_amd64_freeze.yaml', 'fileSize': 2528}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:50.560" endtime="20220829 20:33:50.560"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:50.561" endtime="20220829 20:33:50.561"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:50.561" endtime="20220829 20:33:50.562"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:50.561" endtime="20220829 20:33:50.562"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:50.561" endtime="20220829 20:33:50.562"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:50.560" endtime="20220829 20:33:50.562"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': 'e7312b41-cc31-4ded-a78d-edc81eec09a3', 'fileName': 'test.xlsx', 'fileSize': 4803}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:50.562" endtime="20220829 20:33:50.562"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<msg timestamp="20220829 20:33:50.564" level="INFO">GET https://api.eu1.robocorp.com/process-v1/workspaces/37a1e070-0a82-42c1-b001-248e625a0cf1/processes/4a4ae441-95b6-48ac-9725-12ffbedb5a62/runs/5fcc090d-2408-4f95-b47b-7369fbf835ce/robotRuns/a650cde7-5349-4f8d-89a0-35e3846b047d/artifacts/e7312b41-cc31-4ded-a78d-edc81eec09a3/test.xlsx</msg>
+<msg timestamp="20220829 20:33:51.256" level="INFO">${download_link} = https://task-data-api.eu1.robocloud.eu/bin-v1/runs/a650cde7-5349-4f8d-89a0-35e3846b047d/artifacts/e7312b41-cc31-4ded-a78d-edc81eec09a3/test.xlsx?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlJZCI6...</msg>
+<status status="PASS" starttime="20220829 20:33:50.563" endtime="20220829 20:33:51.256"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<msg timestamp="20220829 20:33:51.257" level="INFO">Creating a new HTTP session</msg>
+<msg timestamp="20220829 20:33:51.258" level="INFO">Creating Session using : alias=rpasession_alias.httpstask-data-api.eu1.robocloud.eu, url=https://task-data-api.eu1.robocloud.eu, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=True,                     debug=0 </msg>
+<status status="PASS" starttime="20220829 20:33:51.257" endtime="20220829 20:33:54.549"/>
+</kw>
+<status status="PASS" starttime="20220829 20:33:50.563" endtime="20220829 20:33:54.549"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:50.562" endtime="20220829 20:33:54.549"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:50.562" endtime="20220829 20:33:54.549"/>
+</iter>
+<status status="PASS" starttime="20220829 20:33:50.550" endtime="20220829 20:33:54.550"/>
+</for>
+<status status="PASS" starttime="20220829 20:33:49.209" endtime="20220829 20:33:54.550"/>
+</iter>
+<iter>
+<var name="${item}">{'id': '506e090b-0741-4ee7-8bf2-2ae63e48c1fe', 'state': 'COMPLETED', 'stateTs': '2022-08-18T10:29:56.753Z', 'createTs': '2022-08-18T10:29:37.801Z', 'queueTs': '2022-08-18T10:29:38.292Z', 'workspaceId'...</var>
+<kw name="Get Process Run Status" library="ExtendedProcess">
+<var>${run}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a process run status by run id</doc>
+<msg timestamp="20220829 20:33:55.179" level="INFO">${run} = {'id': '0c662e08-e849-4492-b892-56218b1fd7ff', 'startTs': '2022-08-18T10:29:45.718Z', 'endTs': '2022-08-18T10:29:59.567Z', 'state': 'COMPL', 'stateTs': '2022-08-18T10:29:59.567Z', 'result': 'OK', 'ste...</msg>
+<status status="PASS" starttime="20220829 20:33:54.550" endtime="20220829 20:33:55.179"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>---------------------------------------</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:55.180" endtime="20220829 20:33:55.181"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Process Run ID: ${item}[processRunNo]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:55.182" endtime="20220829 20:33:55.183"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Result: ${run}[result]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:55.184" endtime="20220829 20:33:55.185"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Step ID: ${run}[stepId]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:55.185" endtime="20220829 20:33:55.187"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Duration: ${run}[duration] sec</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:55.187" endtime="20220829 20:33:55.188"/>
+</kw>
+<kw name="List Run Artifacts" library="ExtendedProcess">
+<var>${artifacts}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>List Robot run artifacts</doc>
+<msg timestamp="20220829 20:33:55.190" level="INFO">GET https://api.eu1.robocorp.com/process-v1/workspaces/37a1e070-0a82-42c1-b001-248e625a0cf1/processes/4a4ae441-95b6-48ac-9725-12ffbedb5a62/runs/8503396a-e148-4767-83da-edbe2148af4a/robotRuns/0c662e08-e849-4492-b892-56218b1fd7ff/artifacts</msg>
+<msg timestamp="20220829 20:33:55.931" level="INFO">${artifacts} = [{'id': 'bde4f5e0-428c-4c42-bea8-ea205c9a6af1', 'fileName': 'console.txt', 'fileSize': 34511}, {'id': 'ef459802-e3ad-4ae8-bc20-92011ffe8a1e', 'fileName': 'environment_linux_amd64_freeze.yaml', 'fileSi...</msg>
+<status status="PASS" starttime="20220829 20:33:55.189" endtime="20220829 20:33:55.931"/>
+</kw>
+<for flavor="IN">
+<var>${artifact}</var>
+<value>@{artifacts}</value>
+<iter>
+<var name="${artifact}">{'id': 'bde4f5e0-428c-4c42-bea8-ea205c9a6af1', 'fileName': 'console.txt', 'fileSize': 34511}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:55.933" endtime="20220829 20:33:55.935"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:55.937" endtime="20220829 20:33:55.938"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:55.938" endtime="20220829 20:33:55.939"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:55.936" endtime="20220829 20:33:55.939"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:55.935" endtime="20220829 20:33:55.940"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:55.933" endtime="20220829 20:33:55.940"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': 'ef459802-e3ad-4ae8-bc20-92011ffe8a1e', 'fileName': 'environment_linux_amd64_freeze.yaml', 'fileSize': 2528}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:55.941" endtime="20220829 20:33:55.941"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:55.942" endtime="20220829 20:33:55.943"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:55.943" endtime="20220829 20:33:55.943"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:55.942" endtime="20220829 20:33:55.943"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:55.942" endtime="20220829 20:33:55.943"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:55.940" endtime="20220829 20:33:55.943"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': '47084ca8-2c6f-46c9-a1d2-85ea914e605a', 'fileName': 'test.xlsx', 'fileSize': 4803}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:55.944" endtime="20220829 20:33:55.944"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<msg timestamp="20220829 20:33:55.946" level="INFO">GET https://api.eu1.robocorp.com/process-v1/workspaces/37a1e070-0a82-42c1-b001-248e625a0cf1/processes/4a4ae441-95b6-48ac-9725-12ffbedb5a62/runs/8503396a-e148-4767-83da-edbe2148af4a/robotRuns/0c662e08-e849-4492-b892-56218b1fd7ff/artifacts/47084ca8-2c6f-46c9-a1d2-85ea914e605a/test.xlsx</msg>
+<msg timestamp="20220829 20:33:56.605" level="INFO">${download_link} = https://task-data-api.eu1.robocloud.eu/bin-v1/runs/0c662e08-e849-4492-b892-56218b1fd7ff/artifacts/47084ca8-2c6f-46c9-a1d2-85ea914e605a/test.xlsx?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlJZCI6...</msg>
+<status status="PASS" starttime="20220829 20:33:55.945" endtime="20220829 20:33:56.605"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<msg timestamp="20220829 20:33:56.606" level="INFO">Using already existing HTTP session</msg>
+<status status="PASS" starttime="20220829 20:33:56.605" endtime="20220829 20:33:57.012"/>
+</kw>
+<status status="PASS" starttime="20220829 20:33:55.945" endtime="20220829 20:33:57.012"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:55.944" endtime="20220829 20:33:57.012"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:55.944" endtime="20220829 20:33:57.012"/>
+</iter>
+<status status="PASS" starttime="20220829 20:33:55.932" endtime="20220829 20:33:57.012"/>
+</for>
+<status status="PASS" starttime="20220829 20:33:54.550" endtime="20220829 20:33:57.012"/>
+</iter>
+<iter>
+<var name="${item}">{'id': '09acad2d-d0f4-435e-bc46-2708c4b37827', 'state': 'COMPLETED', 'stateTs': '2022-08-18T10:11:17.454Z', 'createTs': '2022-08-18T10:11:02.014Z', 'queueTs': '2022-08-18T10:11:02.507Z', 'workspaceId'...</var>
+<kw name="Get Process Run Status" library="ExtendedProcess">
+<var>${run}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a process run status by run id</doc>
+<msg timestamp="20220829 20:33:57.657" level="INFO">${run} = {'id': '40d5a43d-9a80-4433-a677-de2f90679a51', 'startTs': '2022-08-18T10:11:09.520Z', 'endTs': '2022-08-18T10:11:20.784Z', 'state': 'COMPL', 'stateTs': '2022-08-18T10:11:20.784Z', 'result': 'OK', 'ste...</msg>
+<status status="PASS" starttime="20220829 20:33:57.013" endtime="20220829 20:33:57.657"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>---------------------------------------</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:57.658" endtime="20220829 20:33:57.659"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Process Run ID: ${item}[processRunNo]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:57.659" endtime="20220829 20:33:57.661"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Result: ${run}[result]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:57.661" endtime="20220829 20:33:57.663"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Step ID: ${run}[stepId]</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:57.664" endtime="20220829 20:33:57.665"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Run Duration: ${run}[duration] sec</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:57.665" endtime="20220829 20:33:57.666"/>
+</kw>
+<kw name="List Run Artifacts" library="ExtendedProcess">
+<var>${artifacts}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>List Robot run artifacts</doc>
+<msg timestamp="20220829 20:33:57.668" level="INFO">GET https://api.eu1.robocorp.com/process-v1/workspaces/37a1e070-0a82-42c1-b001-248e625a0cf1/processes/4a4ae441-95b6-48ac-9725-12ffbedb5a62/runs/b46c843e-0431-4fb4-bbc7-6d4b9a5ee86e/robotRuns/40d5a43d-9a80-4433-a677-de2f90679a51/artifacts</msg>
+<msg timestamp="20220829 20:33:58.310" level="INFO">${artifacts} = [{'id': '88d05b3e-6aa5-421b-9fe3-d3f4f07eb720', 'fileName': 'console.txt', 'fileSize': 34564}, {'id': '7196f3f9-b038-438d-81e2-297a1e9e9159', 'fileName': 'environment_linux_amd64_freeze.yaml', 'fileSi...</msg>
+<status status="PASS" starttime="20220829 20:33:57.667" endtime="20220829 20:33:58.310"/>
+</kw>
+<for flavor="IN">
+<var>${artifact}</var>
+<value>@{artifacts}</value>
+<iter>
+<var name="${artifact}">{'id': '88d05b3e-6aa5-421b-9fe3-d3f4f07eb720', 'fileName': 'console.txt', 'fileSize': 34564}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:58.311" endtime="20220829 20:33:58.311"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:58.311" endtime="20220829 20:33:58.312"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:58.312" endtime="20220829 20:33:58.312"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:58.311" endtime="20220829 20:33:58.312"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:58.311" endtime="20220829 20:33:58.312"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:58.310" endtime="20220829 20:33:58.312"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': '7196f3f9-b038-438d-81e2-297a1e9e9159', 'fileName': 'environment_linux_amd64_freeze.yaml', 'fileSize': 2528}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:58.312" endtime="20220829 20:33:58.313"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<status status="NOT RUN" starttime="20220829 20:33:58.313" endtime="20220829 20:33:58.313"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<status status="NOT RUN" starttime="20220829 20:33:58.314" endtime="20220829 20:33:58.314"/>
+</kw>
+<status status="NOT RUN" starttime="20220829 20:33:58.313" endtime="20220829 20:33:58.314"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:58.313" endtime="20220829 20:33:58.314"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:58.312" endtime="20220829 20:33:58.314"/>
+</iter>
+<iter>
+<var name="${artifact}">{'id': '1d602f5d-8c21-4206-829d-86744f294f00', 'fileName': 'test.xlsx', 'fileSize': 4802}</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${artifact}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220829 20:33:58.314" endtime="20220829 20:33:58.314"/>
+</kw>
+<if>
+<branch type="IF" condition="&quot;.xlsx&quot; in &quot;${artifact}[fileName]&quot;">
+<kw name="Get Robot Run Artifact" library="ExtendedProcess">
+<var>${download_link}</var>
+<arg>process_run_id=${item}[processRunId]</arg>
+<arg>step_run_id=${item}[activityRunId]</arg>
+<arg>artifact_id=${artifact}[id]</arg>
+<arg>filename=${artifact}[fileName]</arg>
+<tag>get</tag>
+<tag>process</tag>
+<tag>runs</tag>
+<doc>Get a download URL for a process run artifact</doc>
+<msg timestamp="20220829 20:33:58.316" level="INFO">GET https://api.eu1.robocorp.com/process-v1/workspaces/37a1e070-0a82-42c1-b001-248e625a0cf1/processes/4a4ae441-95b6-48ac-9725-12ffbedb5a62/runs/b46c843e-0431-4fb4-bbc7-6d4b9a5ee86e/robotRuns/40d5a43d-9a80-4433-a677-de2f90679a51/artifacts/1d602f5d-8c21-4206-829d-86744f294f00/test.xlsx</msg>
+<msg timestamp="20220829 20:33:58.915" level="INFO">${download_link} = https://task-data-api.eu1.robocloud.eu/bin-v1/runs/40d5a43d-9a80-4433-a677-de2f90679a51/artifacts/1d602f5d-8c21-4206-829d-86744f294f00/test.xlsx?token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXlJZCI6...</msg>
+<status status="PASS" starttime="20220829 20:33:58.315" endtime="20220829 20:33:58.915"/>
+</kw>
+<kw name="Download" library="RPA.HTTP">
+<arg>${download_link}</arg>
+<arg>target_file=%{ROBOT_ARTIFACTS}${/}run_${item}[processRunNo]_${artifact}[fileName]</arg>
+<arg>overwrite=${TRUE}</arg>
+<arg>stream=${TRUE}</arg>
+<doc>An alias for the ``HTTP Get`` keyword.</doc>
+<msg timestamp="20220829 20:33:58.916" level="INFO">Using already existing HTTP session</msg>
+<status status="PASS" starttime="20220829 20:33:58.916" endtime="20220829 20:33:59.296"/>
+</kw>
+<status status="PASS" starttime="20220829 20:33:58.315" endtime="20220829 20:33:59.296"/>
+</branch>
+<status status="PASS" starttime="20220829 20:33:58.315" endtime="20220829 20:33:59.296"/>
+</if>
+<status status="PASS" starttime="20220829 20:33:58.314" endtime="20220829 20:33:59.297"/>
+</iter>
+<status status="PASS" starttime="20220829 20:33:58.310" endtime="20220829 20:33:59.297"/>
+</for>
+<status status="PASS" starttime="20220829 20:33:57.012" endtime="20220829 20:33:59.297"/>
+</iter>
+<status status="PASS" starttime="20220829 20:33:47.625" endtime="20220829 20:33:59.297"/>
+</for>
+<status status="PASS" starttime="20220829 20:33:45.655" endtime="20220829 20:33:59.297"/>
+</test>
+<status status="PASS" starttime="20220829 20:33:45.028" endtime="20220829 20:33:59.298"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tasks</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Task">Task</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

@@ -1,0 +1,14 @@
+tasks:
+  metrics:
+    shell: robotmetrics -I . -O output.xml
+  check:
+    shell: python check.py
+
+condaConfigFile: conda.yaml
+artifactsDir: output
+PATH:
+  - .
+PYTHONPATH:
+  - .
+ignoreFiles:
+  - .gitignore
