@@ -31,9 +31,12 @@ Selenium Chrome Zooming
         Sleep    5s
     END
 
-Selenium Firefox Zooming
+Selenium Zooming
     ESL.Open Available Browser    ${WEBSITE}    browser_selection=firefox
-    Repeat Keyword    5 times    ESL.Firefox Mac Zoom Out
+    Repeat Keyword    5 times    ESL.Firefox Browser Zoom
+    Sleep    5s
+    ESL.Open Available Browser    ${WEBSITE}    browser_selection=chrome
+    ESL.Set Chrome Browser Zoom    20
     Sleep    5s
     [Teardown]    ESL.Close All Browsers
 

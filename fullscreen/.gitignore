@@ -14,3 +14,4 @@ temp/
 *.zip
 .~lock*
 */work-items-out/*
+*.log
