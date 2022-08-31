@@ -1,6 +1,8 @@
 *** Settings ***
 Library             RPA.Browser.Playwright    WITH NAME    PW
 Library             RPA.Browser.Selenium    WITH NAME    SL
+Library             RPA.Desktop    WITH NAME    D
+Library             ExtendedSelenium    WITH NAME    ESL
 
 Suite Teardown      SL.Close All Browsers
 
@@ -20,6 +22,20 @@ Playwright Full Page Screenshot
     PW.New Browser    chromium
     PW.New Page    ${WEBSITE}
     PW.Take Screenshot    filename=%{ROBOT_ARTIFACTS}${/}PW-page    fullPage=True
+
+Selenium Chrome Zooming
+    SL.Open Available Browser    ${WEBSITE}    browser_selection=chrome
+    @{zoomlevels}=    Create List    20    50    150    200
+    FOR    ${zoomlevel}    IN    @{zoomlevels}
+        SL.Execute Javascript    document.body.style.zoom='${zoomlevel}%'
+        Sleep    5s
+    END
+
+Selenium Firefox Zooming
+    ESL.Open Available Browser    ${WEBSITE}    browser_selection=firefox
+    Repeat Keyword    5 times    ESL.Firefox Mac Zoom Out
+    Sleep    5s
+    [Teardown]    ESL.Close All Browsers
 
 
 *** Keywords ***

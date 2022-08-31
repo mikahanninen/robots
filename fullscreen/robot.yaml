@@ -3,6 +3,8 @@ tasks:
     robotTaskName: Selenium Full Page Screenshot
   Playwright:
     robotTaskName: Playwright Full Page Screenshot
+  Zooming:
+    robotTaskName: Selenium Zooming
 
 condaConfigFile: conda.yaml
 artifactsDir: output
