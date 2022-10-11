@@ -3,3 +3,4 @@ report.html
 output.xml
 .DS_Store
 .vscode
+fullscreen/playwright-log.txt
