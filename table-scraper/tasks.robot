@@ -13,6 +13,9 @@ ${LOCATOR_NEXT_BUTTON}          //a[text()="Next"]/parent::li
 
 *** Test Cases ***
 Minimal task
+    ${sversion}=    Evaluate    selenium.__version__.split(".")[0]    modules=selenium
+    Set Task Variable    ${SELENIUM_VERSION}    ${sversion}
+    Log To Console    \nRunning on Selenium ${SELENIUM_VERSION}\n
     # Action: Scrape all table pages and return headers + rows
     ${headers}    ${all_rows}=    Get table data from a webpage
     # Action: Create result object from the headers and rows
@@ -54,7 +57,7 @@ Collect Table Rows
     ${table_rows}=    Get WebElements    ${LOCATOR_TABLE_ROWS}
     ${rows}=    Create List
     FOR    ${row}    IN    @{table_rows}
-        ${cells}=    Evaluate    $row.find_elements_by_tag_name("td")
+        ${cells}=    Find by tag name    ${row}    td
         #${cell_contents}=    Evaluate    [c.text.strip() for c in $cells]
         ${cell_contents}=    Create List
         FOR    ${cell}    IN    @{cells}
@@ -68,9 +71,18 @@ Collect Table Rows
 Get Details From Cell
     [Arguments]    ${cell}
     ${cell_text}=    Evaluate    $cell.text.strip()
-    ${links}=    Evaluate    $cell.find_elements_by_tag_name("a")
+    ${links}=    Find by tag name    ${cell}    a
     ${hrefs}=    Evaluate    [link.get_attribute('href') for link in $links]
     ${details}=    Create Dictionary
     ...    text=${cell_text}
     ...    links=${hrefs}
     RETURN    ${details}
+
+Find by tag name
+    [Arguments]    ${element}    ${tagname}
+    IF    "${SELENIUM_VERSION}" == "3"
+        ${links}=    Evaluate    $element.find_elements_by_tag_name("${tagname}")
+    ELSE
+        ${links}=    Evaluate    $element.find_elements("tag name", "${tagname}")
+    END
+    RETURN    ${links}
