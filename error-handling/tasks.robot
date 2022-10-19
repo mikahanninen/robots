@@ -1,4 +1,8 @@
 *** Settings ***
+Documentation       Task containing three steps. If both steps 1 and 2 fail then step 3
+...                 is not run at all.
+...                 \n*NOTE.* Keyword "Fail" is just used for simulating errors in the task execution
+
 Library             Collections
 
 Task Setup          Set Environment
@@ -17,7 +21,9 @@ Minimal task
             Step 3
         END
     EXCEPT
-        Log    Unknown error situation. We should not end up in here.    level=ERROR
+        ${error_message}=    Set Variable    Unknown error situation. We should not end up in here.
+        Append To List    ${BOT_STATE}[errors]    ${error_message}
+        Log    ${error_message}    level=ERROR
         Fail
     END
     Log    Done.
