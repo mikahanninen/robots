@@ -1,0 +1,12 @@
+tasks:
+  Robot Framework Example:
+    robotTaskName: Robot Framework Example
+
+condaConfigFile: conda.yaml
+artifactsDir: output
+PATH:
+  - .
+PYTHONPATH:
+  - .
+ignoreFiles:
+  - .gitignore
