@@ -20,11 +20,6 @@ Robot Framework Example
     Sleep    5s
     Switch Window    ${PORTAL_TAB}    # Using named handle stored as a variable
     Sleep    5s
-    # Closing manually each window/tab
-    Close Specific Window or Tab    ${PORTAL_TAB}
-    Sleep    2s
-    Close Specific Window or Tab    ${LIBRARY_REPOSITORY}
-    Sleep    2s
     Log    Done.
 
 
@@ -35,12 +30,6 @@ Set Window Name
     ${handles}=    Get Window Handles
     Set Global Variable    ${${window_variable_name}}    ${handles}[-1]
     Log To Console    ${SELENIUM_WINDOW_LIST}
-
-Close Specific Window or Tab
-    [Arguments]    ${window_variable_name}
-    Switch Window    ${window_variable_name}
-    Set Global Variable    name
-    Close Window
 
 Keyword Which Opens New Window or Tab
     [Arguments]    ${url}    ${window_variable_name}    ${window}=${FALSE}
