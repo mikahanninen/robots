@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)https://wkhtmltopdf.org/status.html -->
+<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers no-applicationcache svg inlinesvg smil svgclippaths" lang="en" style=""><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wkhtmltopdf</title>
+
+  <link rel="stylesheet" href="./example_files/normalize.css">
+  <link rel="stylesheet" href="./example_files/foundation.css">
+
+  <link rel="stylesheet" href="./example_files/site.css">
+
+  <script src="./example_files/modernizr.js.download"></script>
+
+<meta class="foundation-data-attribute-namespace"><meta class="foundation-mq-xxlarge"><meta class="foundation-mq-xlarge"><meta class="foundation-mq-large"><meta class="foundation-mq-medium"><meta class="foundation-mq-small"><style></style><meta class="foundation-mq-topbar"></head>
+<body data-new-gr-c-s-check-loaded="14.1103.0" data-gr-ext-installed="">
+
+   <!-- Header and Nav -->
+
+  <div id="header-row">
+    <div class="row">
+      <div class="large-4 columns">
+        <h1>
+          <a href="https://wkhtmltopdf.org/index.html"><img src="./example_files/logo.png" alt="wkhtmltopdf"></a>
+        </h1>
+      </div>
+      <div class="large-8 columns">
+        <ul class="button-group right">
+          <li><a href="https://github.com/wkhtmltopdf/wkhtmltopdf" class="button">GitHub</a></li>
+          <li><a href="https://wkhtmltopdf.org/docs.html" class="button">Docs</a></li>
+          <li><a href="https://wkhtmltopdf.org/status.html" class="button">Status</a></li>
+          <li><a href="https://wkhtmltopdf.org/support.html" class="button">Support</a></li>
+          <li><a href="https://wkhtmltopdf.org/downloads.html" class="button">Downloads</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Header and Nav -->
+
+  <!-- Content -->
+
+  <div class="row">
+    <div class="small-12 columns margin-top">
+
+      <p>If you want the <strong>TL;DR</strong> version, you can skip to the <a href="https://wkhtmltopdf.org/status.html#summary">summary</a>
+and <a href="https://wkhtmltopdf.org/status.html#recommendations">recommendations</a>.</p>
+
+<h2 id="history">History</h2>
+
+<p>According to the git history, <a href="https://github.com/antialize">Jakob Truelsen</a> started this project the day
+after <a href="https://doc.qt.io/archives/qtextended4.4/qt4-4-intro.html#qt-webkit-integration">Qt 4.4 introduced QtWebKit</a>. The <a href="https://github.com/wkhtmltopdf/wkhtmltopdf/commit/1e55e71dab">initial commit</a> seems more a demo,
+but soon grew to have a lot of new features. Although Qt 4.5 enhanced the
+QtWebKit API, the focus wasn’t on the HTML to PDF conversion use case, so
+the <a href="https://github.com/wkhtmltopdf/wkhtmltopdf/commit/881535f0f7">first Qt patch</a> got introduced. As an example of how far ahead of the
+curve this was, the equivalent support was added for <a href="https://chromium.googlesource.com/chromium/src/+/a2e8edb82a%5E%21/">Chrome 64 in 2017</a>
+– more than 8 years later!</p>
+
+<p>During the early years, the focus of both Google and Apple was the web
+platform – printing (<em>especially to PDF</em>) simply wasn’t a focus area.
+So although there were attempts to <a href="https://bugs.webkit.org/show_bug.cgi?id=26584">upstream the API changes</a>, there
+wasn’t much interest in getting them merged. At the same time, the only
+other capable tool at that time (<em>which is still going strong</em>) was
+<a href="https://www.princexml.com/releases/#p60r8">PrinceXML</a>, but it was commercial and had steep license fees so the
+popularity of wkhtmltopdf kept on exploding.</p>
+
+<blockquote>
+  <p>Fun fact: <a href="https://github.com/ariya">Ariya Hidayat</a>, who did an initial review of the API changes
+was then working at Nokia (<em>which had acquired Qt in 2008</em>) and would go
+on to develop <a href="https://en.wikipedia.org/wiki/PhantomJS">PhantomJS</a>, which too was based on QtWebKit and enabled
+a whole class of other tools to be developed.</p>
+</blockquote>
+
+<p>Even as the upstreaming work stalled, Jakob and other contributors kept
+developing new features and extending the Qt patches. Once Qt 5.0 was
+released in 2012, due to a quirk in the way C++ libraries are developed
+meant that no new APIs could be introduced in the Qt 5.x lifecycle.</p>
+
+<p>During the 2012-2014 timeframe, the project was stagnant – the number
+of users kept on increasing but the number of developers didn’t. This
+resulted in a lot of issues being created in the tracker. In most
+open-source projects, some of the users eventually step up and become
+contributors – which didn’t happen as the project was an intersection
+between Qt and WebKit (<em>both written in C++</em>) while most users were just
+familiar with HTML, CSS and JS.</p>
+
+<p>Meanwhile, interesting things were happening in the wider world. Google
+decided to <a href="https://en.wikipedia.org/wiki/Blink_(browser_engine)">fork WebKit into Blink</a> in April 2013, and Qt decided to
+follow with it by announcing <a href="https://www.qt.io/blog/2013/09/12/introducing-the-qt-webengine">Qt WebEngine</a> within 6 months. Although
+their plan was to keep developing both, it didn’t work out and QtWebKit
+was eventually deprecated in 2015 and removed in 2016. It had been on
+life support for years ever since it was <a href="https://lists.webkit.org/pipermail/webkit-dev/2013-October/025609.html">removed from WebKit</a> within
+a month of the Qt WebEngine announcement.</p>
+
+<p>Back in wkhtmltopdf-land, a shiny new <a href="https://groups.google.com/forum/m/#!msg/wkhtmltopdf-general/v7nB6wDDIHg/89oigeuZWZoJ">0.12.0 release</a> happened in
+early 2014. <a href="https://github.com/ashkulz">Ashish Kulkarni</a> became the maintainer after that and
+all further releases in the 0.12.x series were made by him (<em>in case
+it isn’t obvious, he’s the author of this long <strong>and</strong> boring essay</em> 😁).
+However, things weren’t rosy: the 0.12.0 release was based on Qt 4.8.5
+but Qt 5.0 had been already released just under 2 years ago – so there
+was an urgent need to update the underlying engine.</p>
+
+<p>Initially, <a href="https://blogs.kde.org/2012/11/14/introducing-qtwebkit-23">QtWebKit 2.3</a> seemed promising but it turned out to be a
+red herring: it was supported mostly by Linux distributions and not
+officially by Qt. Although there were some contributions to both <a href="https://github.com/qt/qt/commits?author=ashkulz">Qt4</a>
+and <a href="https://github.com/qt/qtbase/commits?author=ashkulz">Qt5Base</a>/<a href="https://github.com/qt/qtwebkit/commits?author=ashkulz">Qt5WebKit</a> in this time period – it was a small fraction
+of the patches that needed to be upstreamed. Less than a year later
+in 2015, QtWebKit would be deprecated and there was effectively
+<strong>no upstream to contribute to</strong>.</p>
+
+<p>History tends to repeat itself, and the same thing happened in 2015-2016:
+too many users, too few developers and not enough clarity on what was to
+be done to take things forward. At the same time, there was growing
+awareness about the sorry <a href="https://blogs.gnome.org/mcatanzaro/2016/02/01/on-webkit-security-updates/">state of WebKit security</a> (<em>for those who read
+it, wkhtmltopdf depends on the WebKit1 in-process API</em>). It looked like
+things would improve with a <a href="https://blogs.gnome.org/mcatanzaro/2017/08/06/endgame-for-webkit-woes/">revamped QtWebKit fork</a> which would be
+accepted by most Linux distributions, but that turned out to be a mirage.</p>
+
+<p>Regardless, an <a href="https://github.com/wkhtmltopdf/wkhtmltopdf/tree/0.13#release-plan">initial plan for 0.13</a> major release was drawn and work
+started. But work on the <a href="https://github.com/qtwebkit/qtwebkit/releases">revamped QtWebKit</a> stalled after 5.212 alpha2
+in 2017 and so did the motivation to continue on 0.13 😞. Although the
+revamped QtWebKit has revived again in 2019, received funding via
+Patreon/GitHub and <a href="https://github.com/annulen">annulen</a> has made great progress, the status shown
+by GitHub (<em>as of 2020-06-10</em>) shows how much it has to catch up:</p>
+
+<blockquote>
+  <p>This branch is 2947 commits ahead, <strong>9266</strong> commits behind WebKit:master.</p>
+</blockquote>
+
+<p>Plus Qt 6.0 is going to ship this November, and there’s uncertainity
+over <a href="https://lwn.net/Articles/817129/">the future of Qt</a> itself. Meanwhile, Chrome has made great
+strides since 2016 when they started making Printing/PDF a focus –
+this same fact led to a significant <a href="https://groups.google.com/forum/m/#!topic/phantomjs/9aI5d-LDuNE">maintainer stepping down</a> for
+PhantomJS. Also, if you see the <a href="https://github.com/puppeteer/puppeteer/blob/v4.0.0/docs/api.md#pagepdfoptions">puppeteer page.pdf</a> API, it looks
+eerily similar to the options used by wkhtmltopdf – which is a good
+thing, as it’s well supported and has a much more modern browser engine 🎉</p>
+
+<p>But this has led to a Blink monoculture – almost everyone uses the
+same browser engine, which doesn’t feel healthy for someone who lived
+through the IE 6 days, I personally had to support that monstrosity
+even as late as 2014 (<em>in a very conservative banking context</em>). Even
+though Google is unlikely to do that, things can change in the future
+so more competition is always good. <em>Note that these are the personal
+views of <a href="https://github.com/ashkulz">Ashish Kulkarni</a>, not of anyone else</em>.</p>
+
+<h2 id="summary">Summary</h2>
+
+<ul>
+  <li>Qt 4 (<em>which wkhtmltopdf uses</em>) hasn’t been supported since 2015, the
+WebKit in it hasn’t been updated since 2012.</li>
+  <li>Qt 5 is supported, but removed QtWebkit in 2016 (Qt 5.6), development
+stopped after 2012 but minor fixes continued till 2015.</li>
+  <li>QtWebKit 5.212 by <a href="https://github.com/annulen">annulen</a> uses a version more than 4 years old, but
+is packaged by major Linux distributions.</li>
+  <li><a href="https://github.com/qtwebkit/qtwebkit">qtwebkit-dev-wip</a> uses a version of WebKit almost 1.5 years old, and
+isn’t ready for release yet – packaging by distributions comes later!</li>
+</ul>
+
+<p><strong>Where do you contribute to upstream the patches</strong>? It makes sense to only
+do the effort if it’s going to be maintained – browsers have a fast
+release candence exactly for this, to address security issues. If you
+wish to donate money, please <a href="https://github.com/qtwebkit/qtwebkit">sponsor QtWebKit instead</a> … that’ll help
+more projects than just this one and will ensure that there <strong>is</strong> a future.</p>
+
+<h2 id="future-plans">Future Plans</h2>
+
+<ul>
+  <li>After the 0.12.6 release, I’ll do a final 0.12.7 release by Aug 2020
+which fixes any 0.12.6 regressions and review/merge already <a href="https://github.com/wkhtmltopdf/wkhtmltopdf/pulls">submitted
+PRs</a> by a lot of people (<em>ignored till now due to personal reasons</em> 🙈)</li>
+  <li>Work on <a href="https://github.com/wkhtmltopdf/wkhtmltopdf/issues/3217">rebaselining the patches</a> to QtWebKit 5.212 – although
+outdated, it’ll be a practice run to see if it’s possible at all.</li>
+  <li>If the above point is successful, submit them to the Qt and QtWebKit
+projects and get them merged after review, changing wkhtmltopdf as
+required.</li>
+</ul>
+
+<p>There is no deadline by when the last two points will happen, or even
+that they will be done at all – it all depends on the time available
+to the maintainer and if volunteers step up to take up some tasks. So,
+please stop asking about that 🙏</p>
+
+<h2 id="recommendations">Recommendations</h2>
+
+<ul>
+  <li><strong>Do not use wkhtmltopdf with any untrusted HTML</strong> – be sure to
+sanitize any user-supplied HTML/JS, otherwise it can lead to
+complete takeover of the server it is running on! Please consider
+using a Mandatory Access Control system like AppArmor or SELinux,
+see <a href="https://wkhtmltopdf.org/apparmor.html">recommended AppArmor policy</a>.</li>
+  <li>If you’re using it for report generation (i.e. with HTML you control),
+also consider using <a href="https://weasyprint.org/">WeasyPrint</a> or the <a href="https://www.princexml.com/">commercial tool Prince</a> –
+note that I’m not affiliated with either project, and do your diligence.</li>
+  <li>If you’re using it to convert a site which uses dynamic JS, consider
+using <a href="https://pptr.dev/">puppeteer</a> or one of the many wrappers it has.</li>
+</ul>
+
+
+
+    </div>
+  </div>
+
+  <!-- End Content -->
+
+  <!-- Footer -->
+
+  <footer class="row">
+    <div class="large-12 columns">
+      <hr>
+      <div class="row">
+        <div class="large-7 columns">Project maintained by <a href="https://github.com/ashkulz">Ashish Kulkarni</a>, originally created by <a href="https://github.com/antialize">Jakob Truelsen</a>.</div>
+        <div class="large-5 columns">
+          <ul class="inline-list right">
+            <li><a href="https://github.com/wkhtmltopdf/wkhtmltopdf">GitHub</a></li>
+            <li><a href="https://wkhtmltopdf.org/docs.html">Docs</a></li>
+            <li><a href="https://wkhtmltopdf.org/status.html">Status</a></li>
+            <li><a href="https://wkhtmltopdf.org/support.html">Support</a></li>
+            <li><a href="https://wkhtmltopdf.org/downloads.html">Downloads</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./example_files/jquery-2.1.0.min.js.download"></script>
+  <script src="./example_files/foundation.min.js.download"></script>
+  <script>
+    $(document).foundation();
+  </script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"></grammarly-desktop-integration></html>
